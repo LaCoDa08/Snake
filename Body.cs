@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 namespace Snake
 {
     /// <summary>
@@ -9,10 +9,11 @@ namespace Snake
     {
         private ConsoleColor bodyColor;
         private ConsoleColor headColor;
-        private int positionTop;
-        private int positionLeft;
+        private static int positionTop;
+        private static int positionLeft;
         private int speed;
         private readonly int Length;
+
         public Body()
         {
             positionTop = 12;
@@ -27,6 +28,12 @@ namespace Snake
         /// </summary>
         public void PaintSnake()
         {
+            Head head = new Head(Length);
+            for (int i = positionLeft; i < (positionLeft + Length); i++)
+            {
+                head.Enqueue(new Position(i, positionTop));
+            }
+
             Console.SetCursorPosition(positionLeft, positionTop);
             Console.BackgroundColor = bodyColor;
             Console.WriteLine(new string(' ', Length));
@@ -43,31 +50,34 @@ namespace Snake
             {
                 head.Enqueue(new Position(i, positionTop));
             }
-
             int headLength = 1;
             Console.SetCursorPosition(positionLeft, positionTop);
             Console.BackgroundColor = headColor;
             Console.WriteLine(new string(' ', headLength));
         }
 
-        private static void Move(ConsoleKeyInfo direction)
+        /// <summary>
+        /// Sets the movemnet keys for the snake.
+        /// </summary>
+        /// <param name="d"></param>
+        public static void Move(Direction d)
         {
-            switch (direction.Key)
+            switch (d)
             {
-                case ConsoleKey.W:
-                    //move up
+                case Direction.Up:
+                    positionTop--;
                     break;
 
-                case ConsoleKey.A:
-                    //move left
+                case Direction.Left:
+                    positionLeft--;
                     break;
 
-                case ConsoleKey.S:
-                    //move down
+                case Direction.Down:
+                    positionTop++;
                     break;
 
-                case ConsoleKey.D:
-                    //move right
+                case Direction.Right:
+                    positionLeft++;
                     break;
             }
         }
