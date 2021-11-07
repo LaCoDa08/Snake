@@ -1,5 +1,5 @@
-﻿using System;
-
+using System;
+using System.Text;
 
 namespace Snake
 {
@@ -56,6 +56,16 @@ namespace Snake
                 front = ++front % capacity;
 
             return p;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = front; i < front + n; i++)
+            {
+                sb.Append(elements[i % capacity]).Append(" ");
+            }
+            return $"{sb.ToString()}";
         }
     }
 }
